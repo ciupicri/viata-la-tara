@@ -23,6 +23,10 @@ class FarmVilleBot:
 
     def do_action(self, x, y):
         self._logger.info('do_action(%d, %d)' % (x, y))
+        mousecontrol.mouse_warp(x, y)
+        time.sleep(self.delay)
+        mousecontrol.mouse_click(1)
+        time.sleep(self.delay)
 
     def run(self):
         x, y = mousecontrol.get_mouse_position()
