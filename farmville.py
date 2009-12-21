@@ -9,7 +9,7 @@ import mousecontrol
 XDIST = 25
 YDIST = 12
 
-def main():
+def parse_options():
     parser = OptionParser()
     parser.set_defaults(zoom=1, log_level=logging.WARN)
     parser.add_option('-z', '--zoom',
@@ -21,10 +21,12 @@ def main():
     parser.add_option('--debug',
                       action='store_const', const=logging.DEBUG, dest='log_level',
                       help='set logging level to DEBUG')
-    options, args = parser.parse_args()
-    logging.basicConfig(level=options.log_level)
+    return parser.parse_args()
 
+def main():
+    options, args = parse_options()
     nrows, ncols = (int(x) for x in args)
+    logging.basicConfig(level=options.log_level)
     logging.debug('zoom = %d, ncols = %d, nrows = %d' % (options.zoom, ncols, nrows))
 
 if __name__ == '__main__':
