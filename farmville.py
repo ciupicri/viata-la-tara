@@ -2,6 +2,8 @@
 import logging
 from optparse import OptionParser
 import sys
+import time
+
 import mousecontrol
 
 # FarmVille constants
@@ -11,10 +13,13 @@ YDIST = 12
 
 def parse_options():
     parser = OptionParser()
-    parser.set_defaults(zoom=1, log_level=logging.WARN)
+    parser.set_defaults(zoom=1, delay=0.5, log_level=logging.WARN)
     parser.add_option('-z', '--zoom',
                       type='int', dest='zoom',
                       help='zoom level: 1 - 4')
+    parser.add_option('--delay',
+                      type='float', dest='delay',
+                      help='delay between mouse actions')
     parser.add_option('-v', '--verbose',
                       action='store_const', const=logging.INFO, dest='log_level',
                       help='set logging level to INFO')
