@@ -4,6 +4,11 @@ from optparse import OptionParser
 import sys
 import mousecontrol
 
+# FarmVille constants
+# for zoom level 1 whatever that is
+XDIST = 25
+YDIST = 12
+
 def main():
     parser = OptionParser()
     parser.set_defaults(zoom=1, log_level=logging.WARN)
