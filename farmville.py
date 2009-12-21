@@ -6,7 +6,7 @@ from farmvillebot import FarmVilleBot
 
 def parse_options():
     parser = OptionParser()
-    parser.set_defaults(dry_run=False, zoom=1, delay=0.5, log_level=logging.WARN)
+    parser.set_defaults(dry_run=False, zoom=4, delay=0.5, log_level=logging.WARN)
     parser.add_option('-n', '--dry-run',
                       action='store_true', dest='dry_run',
                       help="""don't actually run any commands; just print them.""")
