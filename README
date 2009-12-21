@@ -1,0 +1,3 @@
+FarmVille bot for Unices, e.g. Linux.
+
+It uses python-xlib and X11's XTEST extension to control the mouse.
