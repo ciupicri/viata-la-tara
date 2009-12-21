@@ -4,8 +4,8 @@ import mousecontrol
 
 # FarmVille constants
 # for zoom level 1 whatever that is
-XDIST = 25
-YDIST = 12
+XDIST_ZOOM1 = 25
+YDIST_ZOOM1 = 12
 
 class FarmVilleBot:
     """FarmVille bot"""
@@ -32,15 +32,23 @@ class FarmVilleBot:
     def run(self):
         x, y = mousecontrol.get_mouse_position()
         self._logger.info('run: initial mouse position: (%d, %d)' % (x, y))
-        xdelta = self.zoom * XDIST
-        ydelta = self.zoom * YDIST
+        xdist = self.zoom * XDIST_ZOOM1
+        ydist = self.zoom * YDIST_ZOOM1
+        xdelta = xdist
+        ydelta = -ydist
         for i in range(self.nrows):
             self._logger.debug('run: i=%d' % (i, ))
             for j in range(self.ncols):
                 self._logger.debug('run: j=%d' % (j, ))
                 self.do_action(x, y)
                 x += xdelta
-            x -= xdelta # cancel last move
-            xdelta = -xdelta # reverse direction
-            y += ydelta
-
+                y += ydelta
+            # cancel last move
+            x -= xdelta
+            y -= ydelta
+            # next row
+            x += xdist
+            y += ydist
+            # reverse direction
+            xdelta = -xdelta
+            ydelta = -ydelta
