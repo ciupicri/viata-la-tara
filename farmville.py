@@ -30,11 +30,13 @@ class FarmVilleBot:
 
     def run(self):
         x, y = mousecontrol.get_mouse_position()
-        self._logger.info('initial mouse position: (%d, %d)' % (x, y))
+        self._logger.info('run: initial mouse position: (%d, %d)' % (x, y))
         xdelta = self.zoom * XDIST
         ydelta = self.zoom * YDIST
         for i in range(self.nrows):
+            self._logger.debugg('run: i=%d' % (i, ))
             for j in range(self.ncols):
+                self._logger.debugg('run: j=%d' % (j, ))
                 self.do_action(x, y)
                 x += xdelta
             x -= xdelta # cancel last move
