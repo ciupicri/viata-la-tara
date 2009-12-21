@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import logging
 from optparse import OptionParser
-import sys
 
 from farmvillebot import FarmVilleBot
 
