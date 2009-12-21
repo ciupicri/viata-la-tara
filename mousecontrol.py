@@ -25,5 +25,10 @@ def mouse_warp(x, y):
     _root.warp_pointer(x, y)
     _display.sync()
 
+def get_mouse_position():
+    """get_mouse_position() -> x, y"""
+    d = _root.query_pointer()._data
+    return d['root_x'], d['root_y']
+
 def get_screen_resolution():
     return _screen['width_in_pixels'], _screen['height_in_pixels']
