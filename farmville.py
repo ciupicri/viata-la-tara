@@ -11,6 +11,32 @@ import mousecontrol
 XDIST = 25
 YDIST = 12
 
+class FarmVilleBot:
+    """FarmVille bot"""
+    _logger = logging.getLogger('FarmVilleBot')
+
+    def __init__(self, nrows, ncols, zoom, delay):
+        self.nrows = nrows
+        self.ncols = ncols
+        self.zoom = zoom
+        self.delay = delay
+
+    def do_action(self, x, y):
+        self._logger.info('do_action(%d, %d)' % (x, y))
+
+    def run(self):
+        x, y = mousecontrol.get_mouse_position()
+        self._logger.info('initial mouse position: (%d, %d)' % (x, y))
+        xdelta = self.zoom * XDIST
+        ydelta = self.zoom * YDIST
+        for i in range(self.nrows):
+            for j in range(self.ncols):
+                self.do_action(x, y)
+                x += xdelta
+            x -= xdelta # cancel last move
+            xdelta = -xdelta # reverse direction
+            y += ydelta
+
 def parse_options():
     parser = OptionParser()
     parser.set_defaults(zoom=1, delay=0.5, log_level=logging.WARN)
@@ -28,26 +54,12 @@ def parse_options():
                       help='set logging level to DEBUG')
     return parser.parse_args()
 
-def do_action(x, y):
-    logging.info('do_action(%d, %d)' % (x, y))
-
 def main():
     options, args = parse_options()
     nrows, ncols = (int(x) for x in args)
     logging.basicConfig(level=options.log_level)
-    logging.debug('zoom = %d, ncols = %d, nrows = %d' % (options.zoom, ncols, nrows))
-
-    x, y = mousecontrol.get_mouse_position()
-    logging.info('initial mouse position: (%d, %d)' % (x, y))
-    xdelta = options.zoom * XDIST
-    ydelta = options.zoom * YDIST
-    for i in range(nrows):
-        for j in range(ncols):
-            do_action(x, y)
-            x += xdelta
-        x -= xdelta # cancel last move
-        xdelta = -xdelta # reverse direction
-        y += ydelta
+    bot = FarmVilleBot(nrows, ncols, options.zoom, options.delay)
+    bot.run()
 
 if __name__ == '__main__':
     main()
