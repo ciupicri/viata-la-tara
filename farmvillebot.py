@@ -24,9 +24,9 @@ class FarmVilleBot:
             mousecontrol.mouse_warp(x, y)
         time.sleep(self.delay)
 
-        self._logger.info('do_action: mouse_click(1)')
+        self._logger.info('do_action: mouse_click()')
         if not self.dry_run:
-            mousecontrol.mouse_click(1)
+            mousecontrol.mouse_click()
         time.sleep(self.delay)
 
     def run(self):
