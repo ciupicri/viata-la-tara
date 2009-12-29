@@ -2,14 +2,14 @@
 import logging
 from optparse import OptionParser
 
-from farmvillebot import FarmVilleBot
+import farmvillebot
 
 def parse_options():
     parser = OptionParser()
     parser.set_defaults(dry_run=False, zoom=4, delay=0.5, log_level=logging.WARN)
-    parser.add_option('-n', '--dry-run',
-                      action='store_true', dest='dry_run',
-                      help="""don't actually run any commands; just print them.""")
+    #parser.add_option('-n', '--dry-run',
+    #                  action='store_true', dest='dry_run',
+    #                  help="""don't actually run any commands; just print them.""")
     parser.add_option('-z', '--zoom',
                       type='int', dest='zoom',
                       help="zoom level: 1 - 4")
@@ -22,14 +22,21 @@ def parse_options():
     parser.add_option('--debug',
                       action='store_const', const=logging.DEBUG, dest='log_level',
                       help="set logging level to DEBUG")
+    parser.add_option('--click',
+                      action='store_const', const=farmvillebot.click, dest='action',
+                      help="do clicks")
+    parser.add_option('--collect',
+                      action='store_const', const=farmvillebot.collect, dest='action',
+                      help="collect")
     return parser.parse_args()
 
 def main():
     options, args = parse_options()
     nrows, ncols = (int(x) for x in args)
     logging.basicConfig(level=options.log_level)
-    bot = FarmVilleBot(nrows, ncols,
-                       options.dry_run, options.zoom, options.delay)
+    bot = farmvillebot.FarmVilleBot(nrows, ncols,
+                                    options.dry_run, options.zoom,
+                                    options.delay, options.action)
     bot.run()
 
 if __name__ == '__main__':

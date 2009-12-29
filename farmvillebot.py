@@ -6,27 +6,53 @@ import mousecontrol
 # for zoom level 1 whatever that is
 XDIST_ZOOM1 = 25
 YDIST_ZOOM1 = 12
+XDIST_COLLECT = 6
+YDIST_COLLECT = 51
+
+def collect(bot, x, y):
+    """Collect from an animal"""
+    bot._logger.info('collecting...')
+    bot._logger.debug('collect(%d, %d)' % (x, y))
+    # activate menu
+    bot._logger.debug('activating menu: mouse_click(%d, %d)' % (x, y))
+    mousecontrol.mouse_click()
+    time.sleep(bot.delay)
+    # select menu action - collect in our case
+    x += XDIST_COLLECT
+    y += YDIST_COLLECT
+    bot._logger.debug('selecting menu action ("Collect"): mouse_warp(%d, %d)' % (x, y))
+    mousecontrol.mouse_warp(x, y)
+    time.sleep(bot.delay)
+    # click menu action - collect in our case
+    bot._logger.debug('clicking menu action: mouse_click()')
+    mousecontrol.mouse_click()
+
+def click(bot, x, y):
+    """Just do a click"""
+    bot._logger.info('clicking...')
+    bot._logger.debug('mouse_click()')
+    mousecontrol.mouse_click()
+
 
 class FarmVilleBot:
     """FarmVille bot"""
     _logger = logging.getLogger('FarmVilleBot')
 
-    def __init__(self, nrows, ncols, dry_run, zoom, delay):
+    def __init__(self, nrows, ncols, dry_run, zoom, delay, action):
         self.nrows = nrows
         self.ncols = ncols
         self.dry_run = dry_run
         self.zoom = zoom
         self.delay = delay
+        self.action = action
 
     def do_action(self, x, y):
-        self._logger.info('do_action: mouse_warp(%d, %d)' % (x, y))
-        if not self.dry_run:
-            mousecontrol.mouse_warp(x, y)
+        self._logger.info('do_action(%d, %d)' % (x, y))
+        self._logger.info('mouse_warp(%d, %d)' % (x, y))
+        mousecontrol.mouse_warp(x, y)
         time.sleep(self.delay)
 
-        self._logger.info('do_action: mouse_click()')
-        if not self.dry_run:
-            mousecontrol.mouse_click()
+        self.action(self, x, y)
         time.sleep(self.delay)
 
     def run(self):
