@@ -8,7 +8,7 @@ _display = Xlib.display.Display()
 _screen = _display.screen()
 _root = _screen.root
 
-def mouse_click(button):
+def mouse_click(button=1):
     """button = 1 left, 2 middle, 3 right"""
     mouse_down(button)
     mouse_up(button)
