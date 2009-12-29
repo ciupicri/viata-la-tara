@@ -2,14 +2,22 @@ import logging
 import time
 import mousecontrol
 
+def class_logger(original_class):
+    """Add _logger to a class"""
+    original_class._logger = logging.getLogger(
+        original_class.__module__ + '.' + original_class.__name__)
+    return original_class
+
+
 # FarmVille constants
 # for zoom level 1 whatever that is
 XDIST_ZOOM1 = 25
 YDIST_ZOOM1 = 12
 
-class FarmVilleBot:
+
+@class_logger
+class FarmVilleBot(object):
     """FarmVille bot"""
-    _logger = logging.getLogger('FarmVilleBot')
 
     def __init__(self, nrows, ncols, dry_run, zoom, delay):
         self.nrows = nrows
