@@ -13,7 +13,7 @@ def mouse_click(button=1):
     mouse_down(button)
     mouse_up(button)
 
-def mouse_down(button): 
+def mouse_down(button):
     Xlib.ext.xtest.fake_input(_display, Xlib.X.ButtonPress, button)
     _display.sync()
 
