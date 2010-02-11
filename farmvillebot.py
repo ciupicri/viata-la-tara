@@ -48,7 +48,8 @@ class FarmVilleBot(object):
         mousecontrol.mouse_click()
         time.sleep(self.delay)
 
-    def menu_action(self, action=3):
+    def menu_action(self, action):
+        """action = 1 (first menu item), 2 (second menu item), ..."""
         self._logger.info("menu_action(%d)" % (action, ))
         mousecontrol.mouse_click()
         time.sleep(self.delay)
@@ -56,3 +57,7 @@ class FarmVilleBot(object):
                                 self.y + 5 + (action-1) * YDIST_MENU_ITEM)
         mousecontrol.mouse_click()
         time.sleep(self.delay)
+
+    def collect(self):
+        self._logger.info("collect")
+        self.menu_action(3)
