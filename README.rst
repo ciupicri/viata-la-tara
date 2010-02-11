@@ -28,3 +28,15 @@ following:
 .. _AutoIt: http://www.autoitscript.com/autoit3
 .. _Python: http://www.python.org/download/
 .. _Python win32 extensions: http://sourceforge.net/projects/pywin32/
+
+
+Usage
+=====
+
+To harvest, plow or plant an area of 7 rows x 10 columns:
+
+``./main.py --debug --zoom 1 --delay 0.7 7 10``
+
+To collect from the animals or harvest the trees from an area of 3 rows and 8 columns:
+
+``./main.py --debug --zoom 1 --delay 0.7 --collect 3 8``
