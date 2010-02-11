@@ -27,12 +27,12 @@ def parse_options():
 def sweep_area(bot, nrows, ncols, action):
     for i in range(nrows):
         for j in range(ncols - 1):
-            action()
+            action(bot)
             if i % 2:
                 bot.down()
             else:
                 bot.up()
-        action()
+        action(bot)
         bot.right()
     bot.left()
 
@@ -41,7 +41,7 @@ def main():
     nrows, ncols = (int(x) for x in args)
     logging.basicConfig(level=options.log_level)
     bot = FarmVilleBot(options.zoom, options.delay)
-    sweep_area(bot, nrows, ncols, bot.click)
+    sweep_area(bot, nrows, ncols, FarmVilleBot.click)
 
 if __name__ == '__main__':
     main()
