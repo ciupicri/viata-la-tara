@@ -6,13 +6,21 @@ from farmvillebot import FarmVilleBot
 
 def parse_options():
     parser = OptionParser()
-    parser.set_defaults(zoom=4, delay=0.5, log_level=logging.WARN)
+    parser.set_defaults(zoom=4, delay=0.5,
+                        action=FarmVilleBot.click,
+                        log_level=logging.WARN)
     parser.add_option('-z', '--zoom',
                       type='int', dest='zoom',
                       help="zoom level: 1 - 4")
     parser.add_option('--delay',
                       type='float', dest='delay',
                       help="delay between mouse actions")
+    parser.add_option('--click',
+                      action='store_const', const=FarmVilleBot.click, dest='action',
+                      help="do clicks")
+    parser.add_option('--collect',
+                      action='store_const', const=FarmVilleBot.collect, dest='action',
+                      help="collect")
     parser.add_option('-v', '--verbose',
                       action='store_const', const=logging.INFO, dest='log_level',
                       help="set logging level to INFO")
@@ -38,7 +46,7 @@ def main():
     nrows, ncols = (int(x) for x in args)
     logging.basicConfig(level=options.log_level)
     bot = FarmVilleBot(options.zoom, options.delay)
-    sweep_area(bot, nrows, ncols, FarmVilleBot.click)
+    sweep_area(bot, nrows, ncols, options.action)
 
 if __name__ == '__main__':
     main()
