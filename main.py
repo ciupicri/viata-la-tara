@@ -7,9 +7,9 @@ from farmvillebot import FarmVilleBot
 def parse_options():
     parser = OptionParser()
     parser.set_defaults(dry_run=False, zoom=4, delay=0.5, log_level=logging.WARN)
-    parser.add_option('-n', '--dry-run',
-                      action='store_true', dest='dry_run',
-                      help="""don't actually run any commands; just print them.""")
+    #parser.add_option('-n', '--dry-run',
+    #                  action='store_true', dest='dry_run',
+    #                  help="""don't actually run any commands; just print them.""")
     parser.add_option('-z', '--zoom',
                       type='int', dest='zoom',
                       help="zoom level: 1 - 4")
@@ -28,9 +28,17 @@ def main():
     options, args = parse_options()
     nrows, ncols = (int(x) for x in args)
     logging.basicConfig(level=options.log_level)
-    bot = FarmVilleBot(nrows, ncols,
-                       options.dry_run, options.zoom, options.delay)
-    bot.run()
+    bot = FarmVilleBot(options.zoom, options.delay)
+
+    for i in range(nrows):
+        for j in range(ncols - 1):
+            bot.click()
+            if i % 2:
+                bot.down()
+            else:
+                bot.up()
+        bot.click()
+        bot.right()
 
 if __name__ == '__main__':
     main()

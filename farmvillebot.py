@@ -1,62 +1,58 @@
-import logging
-import time
 import mousecontrol
-
-def class_logger(original_class):
-    """Add _logger to a class"""
-    original_class._logger = logging.getLogger(
-        original_class.__module__ + '.' + original_class.__name__)
-    return original_class
-
+import time
+import util
 
 # FarmVille constants
-# for zoom level 1 whatever that is
-XDIST_ZOOM1 = 25
-YDIST_ZOOM1 = 12
+XDIST_ZOOM1 = 25 # for zoom level 1
+YDIST_ZOOM1 = 12 # for zoom level 1
+YDIST_MENU_ITEM = 22 # y distance between menu items
 
-
-@class_logger
+@util.class_logger
 class FarmVilleBot(object):
-    """FarmVille bot"""
+    """FarmVille Bot"""
 
-    def __init__(self, nrows, ncols, dry_run, zoom, delay):
-        self.nrows = nrows
-        self.ncols = ncols
-        self.dry_run = dry_run
+    def __init__(self, zoom, delay):
+        self.x, self.y = mousecontrol.get_mouse_position()
         self.zoom = zoom
         self.delay = delay
 
-    def do_action(self, x, y):
-        self._logger.info('do_action: mouse_warp(%d, %d)' % (x, y))
-        if not self.dry_run:
-            mousecontrol.mouse_warp(x, y)
+    # movement
+
+    def move(self, nrows, ncols):
+        self._logger.info("move(%s, %s)" % (nrows, ncols))
+        # move with nrows
+        self.x += nrows * self.zoom * XDIST_ZOOM1
+        self.y -= nrows * self.zoom * YDIST_ZOOM1
+        # move with ncols
+        self.x += ncols * self.zoom * XDIST_ZOOM1
+        self.y += ncols * self.zoom * YDIST_ZOOM1
+        mousecontrol.mouse_warp(self.x, self.y)
         time.sleep(self.delay)
 
-        self._logger.info('do_action: mouse_click()')
-        if not self.dry_run:
-            mousecontrol.mouse_click()
+    def up(self):
+        return self.move(1, 0)
+
+    def down(self):
+        return self.move(-1, 0)
+
+    def left(self):
+        return self.move(0, -1)
+
+    def right(self):
+        return self.move(0, 1)
+
+    # simple actions
+
+    def click(self):
+        self._logger.info("click")
+        mousecontrol.mouse_click()
         time.sleep(self.delay)
 
-    def run(self):
-        x, y = mousecontrol.get_mouse_position()
-        self._logger.info('run: initial mouse position: (%d, %d)' % (x, y))
-        xdist = self.zoom * XDIST_ZOOM1
-        ydist = self.zoom * YDIST_ZOOM1
-        xdelta = xdist
-        ydelta = -ydist
-        for i in range(self.nrows):
-            self._logger.debug('run: i=%d' % (i, ))
-            for j in range(self.ncols):
-                self._logger.debug('run: j=%d' % (j, ))
-                self.do_action(x, y)
-                x += xdelta
-                y += ydelta
-            # cancel last move
-            x -= xdelta
-            y -= ydelta
-            # next row
-            x += xdist
-            y += ydist
-            # reverse direction
-            xdelta = -xdelta
-            ydelta = -ydelta
+    def menu_action(self, action=3):
+        self._logger.info("menu_action(%d)" % (action, ))
+        mousecontrol.mouse_click()
+        time.sleep(self.delay)
+        mousecontrol.mouse_warp(self.x + 5,
+                                self.y + 5 + (action-1) * YDIST_MENU_ITEM)
+        mousecontrol.mouse_click()
+        time.sleep(self.delay)
