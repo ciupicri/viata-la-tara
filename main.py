@@ -24,21 +24,24 @@ def parse_options():
                       help="set logging level to DEBUG")
     return parser.parse_args()
 
+def sweep_area(bot, nrows, ncols, action):
+    for i in range(nrows):
+        for j in range(ncols - 1):
+            action()
+            if i % 2:
+                bot.down()
+            else:
+                bot.up()
+        action()
+        bot.right()
+    bot.left()
+
 def main():
     options, args = parse_options()
     nrows, ncols = (int(x) for x in args)
     logging.basicConfig(level=options.log_level)
     bot = FarmVilleBot(options.zoom, options.delay)
-
-    for i in range(nrows):
-        for j in range(ncols - 1):
-            bot.click()
-            if i % 2:
-                bot.down()
-            else:
-                bot.up()
-        bot.click()
-        bot.right()
+    sweep_area(bot, nrows, ncols, bot.click)
 
 if __name__ == '__main__':
     main()
