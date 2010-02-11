@@ -17,10 +17,10 @@ def parse_options():
                       help="delay between mouse actions")
     parser.add_option('--click',
                       action='store_const', const=FarmVilleBot.click, dest='action',
-                      help="do clicks")
+                      help="click")
     parser.add_option('--collect',
                       action='store_const', const=FarmVilleBot.collect, dest='action',
-                      help="collect")
+                      help="collect or harvest (3rd menu action)")
     parser.add_option('-v', '--verbose',
                       action='store_const', const=logging.INFO, dest='log_level',
                       help="set logging level to INFO")
