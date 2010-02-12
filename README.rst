@@ -13,7 +13,7 @@ Unix/Linux (X11)
 ----------------
 
 It uses the X11 XTEST extension to control the mouse, so you will need to
-install python-xlib.
+install ``python-xlib``.
 
 Windows
 -------
