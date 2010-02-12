@@ -40,3 +40,7 @@ To harvest, plow or plant an area of 7 rows x 10 columns:
 To collect from the animals or harvest the trees from an area of 3 rows and 8 columns:
 
 ``./main.py --debug --zoom 1 --delay 0.7 --collect 3 8``
+
+A screencast_ is also available.
+
+.. _screencast: http://www.youtube.com/watch?v=iUpa2_8lZVg
