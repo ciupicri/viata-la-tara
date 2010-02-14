@@ -11,21 +11,27 @@ YDIST_MENU_ITEM = 22 # y distance between menu items
 class FarmVilleBot(object):
     """FarmVille Bot"""
 
-    def __init__(self, zoom, delay):
+    def __init__(self, zoom, delay, step):
         self.x, self.y = mousecontrol.get_mouse_position()
+        self._logger.info("__init__: x = %s, y = %s" % (self.x, self.y))
+        self._logger.info("__init__: zoom = %s, delay = %s, step = %s" %
+                          (zoom, delay, step))
         self.zoom = zoom
         self.delay = delay
+        self.step = step
 
     # movement
 
-    def move(self, nrows, ncols):
-        self._logger.info("move(%s, %s)" % (nrows, ncols))
-        # move with nrows
-        self.x += nrows * self.zoom * XDIST_ZOOM1
-        self.y -= nrows * self.zoom * YDIST_ZOOM1
-        # move with ncols
-        self.x += ncols * self.zoom * XDIST_ZOOM1
-        self.y += ncols * self.zoom * YDIST_ZOOM1
+    def move(self, ysteps, xsteps):
+        """Move bot with ysteps on vertical and xsteps on horizontal"""
+        self._logger.info("move(%s, %s)" % (ysteps, xsteps))
+        # move with ysteps
+        self.x += ysteps * self.step * self.zoom * XDIST_ZOOM1
+        self.y -= ysteps * self.step * self.zoom * YDIST_ZOOM1
+        # move with xsteps
+        self.x += xsteps * self.step * self.zoom * XDIST_ZOOM1
+        self.y += xsteps * self.step * self.zoom * YDIST_ZOOM1
+        self._logger.debug("move: mouse_warp(%s, %s)" % (self.x, self.y))
         mousecontrol.mouse_warp(self.x, self.y)
         time.sleep(self.delay)
 
