@@ -2,11 +2,12 @@
 import logging
 from optparse import OptionParser
 
+from util import MyOption
 from farmvillebot import FarmVilleBot
 
 def parse_options():
-    parser = OptionParser()
-    parser.set_defaults(zoom=4, delay=0.5,
+    parser = OptionParser(option_class=MyOption)
+    parser.set_defaults(zoom=4, delay=0.5, step=1,
                         action=FarmVilleBot.click,
                         log_level=logging.WARN)
     parser.add_option('-z', '--zoom',
@@ -15,6 +16,9 @@ def parse_options():
     parser.add_option('--delay',
                       type='float', dest='delay',
                       help="delay between mouse actions")
+    parser.add_option('--step',
+                      type='fraction', dest='step',
+                      help="size of the step; can be integer or a fraction, e.g. 1/4")
     parser.add_option('--click',
                       action='store_const', const=FarmVilleBot.click, dest='action',
                       help="click")
@@ -45,7 +49,7 @@ def main():
     options, args = parse_options()
     nrows, ncols = (int(x) for x in args)
     logging.basicConfig(level=options.log_level)
-    bot = FarmVilleBot(options.zoom, options.delay)
+    bot = FarmVilleBot(options.zoom, options.delay, options.step)
     sweep_area(bot, nrows, ncols, options.action)
 
 if __name__ == '__main__':
