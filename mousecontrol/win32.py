@@ -6,7 +6,7 @@ def mouse_click(): # TODO: button=1
     _AutoIt.MouseClick()
 
 def mouse_warp(x, y):
-    _AutoIt.MouseMove(x, y)
+    _AutoIt.MouseMove(int(x), (y))
 
 def get_mouse_position():
     """get_mouse_position() -> x, y"""

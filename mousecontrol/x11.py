@@ -22,7 +22,7 @@ def mouse_up(button):
     _display.sync()
 
 def mouse_warp(x, y):
-    _root.warp_pointer(x, y)
+    _root.warp_pointer(int(x), int(y)) # XXX should it be done here?
     _display.sync()
 
 def get_mouse_position():
